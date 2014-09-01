@@ -9,8 +9,13 @@ public class RetailerConverter extends Converter<Retailer, RetailerTO> {
 
     @Override
     protected Retailer doBackward(final RetailerTO transfer) {
-        // TODO Auto-generated method stub
-        return null;
+        Retailer retailer = new Retailer();
+
+        retailer.setId(transfer.getId());
+        retailer.setName(transfer.getName());
+        retailer.setAuditInformation(new AuditInformationConverter().reverse().convert(
+                transfer.getAuditInformation()));
+        return retailer;
     }
 
     @Override

@@ -9,8 +9,11 @@ public class AuditInformationConverter extends Converter<AuditInformation, Audit
 
     @Override
     protected AuditInformation doBackward(final AuditInformationTO transfer) {
-        // TODO Auto-generated method stub
-        return null;
+        AuditInformation auditInformation = new AuditInformation();
+        
+        auditInformation.setCreatedAt(transfer.getCreatedAt());
+        auditInformation.setUpdatedAt(transfer.getUpdatedAt());
+        return auditInformation;
     }
 
     @Override

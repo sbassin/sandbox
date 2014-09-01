@@ -9,8 +9,14 @@ public class EventConverter extends Converter<Event, EventTO> {
 
     @Override
     protected Event doBackward(final EventTO transfer) {
-        // TODO Auto-generated method stub
-        return null;
+        Event event = new Event();
+
+        event.setId(transfer.getId());
+        event.setLocation(new LocationConverter().reverse().convert(transfer.getLocation()));
+        event.setEventAt(event.getEventAt());
+        event.setAuditInformation(new AuditInformationConverter().reverse().convert(
+                transfer.getAuditInformation()));
+        return event;
     }
 
     @Override

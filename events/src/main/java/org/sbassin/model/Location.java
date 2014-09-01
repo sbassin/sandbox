@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import com.google.common.base.MoreObjects;
+
 @Embeddable
 public class Location implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -27,7 +29,21 @@ public class Location implements Serializable {
         this.latitude = longitude;
     }
 
+    public Location(Double latitude, Double longitude) {
+        this();
+        this.latitude = latitude.floatValue();
+        this.longitude = longitude.floatValue();
+    }
+
+    public Location() {
+        super();
+    }
+
     public void setLongitude(final float longitude) {
         this.longitude = longitude;
+    }
+    
+    public String toString() {
+        return MoreObjects.toStringHelper(this).add("latitude", latitude).add("longitude", longitude).toString();
     }
 }
