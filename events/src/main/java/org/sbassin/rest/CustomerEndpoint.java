@@ -27,58 +27,55 @@ import org.sbassin.model.Customer;
 @Stateless
 @Path("/customers")
 @Produces(value = { MediaType.APPLICATION_JSON })
-public class CustomerEndpoint
-{
-   @PersistenceContext(unitName = "EventsPU")
-   private EntityManager em;
+public class CustomerEndpoint {
+    @PersistenceContext(unitName = "EventsPU")
+    private EntityManager em;
 
-   @POST
-   @Consumes(value = { MediaType.APPLICATION_JSON })
-   public Response create(Customer entity)
-   {
-      em.persist(entity);
-      return Response.created(UriBuilder.fromResource(CustomerEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
-   }
+    @POST
+    @Consumes(value = { MediaType.APPLICATION_JSON })
+    public Response create(final Customer entity) {
+        em.persist(entity);
+        return Response.created(
+                UriBuilder.fromResource(CustomerEndpoint.class).path(String.valueOf(entity.getId())).build())
+                .build();
+    }
 
-   @DELETE
-   @Path("/{id:[0-9][0-9]*}")
-   public Response deleteById(@PathParam("id") Integer id)
-   {
-      Customer entity = em.find(Customer.class, id);
-      if (entity == null)
-      {
-         return Response.status(Status.NOT_FOUND).build();
-      }
-      em.remove(entity);
-      return Response.noContent().build();
-   }
+    @DELETE
+    @Path("/{id:[0-9][0-9]*}")
+    public Response deleteById(@PathParam("id") final Integer id) {
+        final Customer entity = em.find(Customer.class, id);
+        if (entity == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        em.remove(entity);
+        return Response.noContent().build();
+    }
 
-   @GET
-   @Path("/{id:[0-9][0-9]*}")
-   public Response findById(@PathParam("id") Integer id)
-   {
-      TypedQuery<Customer> findByIdQuery = em.createQuery("SELECT DISTINCT c FROM Customer c LEFT JOIN FETCH c.events WHERE c.id = :entityId ORDER BY c.id", Customer.class);
-      findByIdQuery.setParameter("entityId", id);
-      Customer entity;
-      try
-      {
-         entity = findByIdQuery.getSingleResult();
-      }
-      catch (NoResultException nre)
-      {
-         entity = null;
-      }
-      if (entity == null)
-      {
-         return Response.status(Status.NOT_FOUND).build();
-      }
-      return Response.ok(entity).build();
-   }
+    @GET
+    @Path("/{id:[0-9][0-9]*}")
+    public Response findById(@PathParam("id") final Integer id) {
+        final TypedQuery<Customer> findByIdQuery = em
+                .createQuery(
+                        "SELECT DISTINCT c FROM Customer c LEFT JOIN FETCH c.events WHERE c.id = :entityId ORDER BY c.id",
+                        Customer.class);
+        findByIdQuery.setParameter("entityId", id);
+        Customer entity;
+        try {
+            entity = findByIdQuery.getSingleResult();
+        } catch (final NoResultException nre) {
+            entity = null;
+        }
+        if (entity == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok(entity).build();
+    }
 
-   @GET
-   public List<Customer> listAll()
-   {
-      final List<Customer> results = em.createQuery("SELECT DISTINCT c FROM Customer c LEFT JOIN FETCH c.events ORDER BY c.id", Customer.class).getResultList();
-      return results;
-   }
+    @GET
+    public List<Customer> listAll() {
+        final List<Customer> results = em.createQuery(
+                "SELECT DISTINCT c FROM Customer c LEFT JOIN FETCH c.events ORDER BY c.id", Customer.class)
+                .getResultList();
+        return results;
+    }
 }

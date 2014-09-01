@@ -11,86 +11,76 @@ import org.sbassin.model.Event;
 
 @XmlRootElement
 public class CustomerTO implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private Date createdAt;
+    private Date createdAt;
 
-	private String customerId;
+    private String customerId;
 
-	private Set<Event> events = new HashSet<Event>(0);
+    private Set<Event> events = new HashSet<Event>(0);
 
-	private Integer id;
+    private Integer id;
 
-	private Float lat;
+    private LocationTO location;
 
-	private Float long_;
+    private Date updatedAt;
 
-	private Date updatedAt;
+    private String zip;
 
-	private String zip;
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
+    public String getCustomerId() {
+        return customerId;
+    }
 
-	public String getCustomerId() {
-		return customerId;
-	}
+    public Set<Event> getEvents() {
+        return events;
+    }
 
-	public Set<Event> getEvents() {
-		return events;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public LocationTO getLocation() {
+        return location;
+    }
 
-	public Float getLat() {
-		return lat;
-	}
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
 
-	public Float getLong_() {
-		return long_;
-	}
+    public String getZip() {
+        return zip;
+    }
 
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
+    public void setCreatedAt(final Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public String getZip() {
-		return zip;
-	}
+    public void setCustomerId(final String customerId) {
+        this.customerId = customerId;
+    }
 
-	public void setCreatedAt(final Date createdAt) {
-		this.createdAt = createdAt;
-	}
+    public void setEvents(final Set<Event> events) {
+        this.events = events;
+    }
 
-	public void setCustomerId(final String customerId) {
-		this.customerId = customerId;
-	}
+    public void setId(final Integer id) {
+        this.id = id;
+    }
 
-	public void setEvents(final Set<Event> events) {
-		this.events = events;
-	}
+    public void setLocation(final LocationTO location) {
+        this.location = location;
+    }
 
-	public void setId(final Integer id) {
-		this.id = id;
-	}
+    public void setUpdatedAt(final Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
-	public void setLat(final Float lat) {
-		this.lat = lat;
-	}
-
-	public void setLong_(final Float long_) {
-		this.long_ = long_;
-	}
-
-	public void setUpdatedAt(final Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-	public void setZip(final String zip) {
-		this.zip = zip;
-	}
+    public void setZip(final String zip) {
+        this.zip = zip;
+    }
 
 }

@@ -7,21 +7,21 @@ import com.google.common.base.Converter;
 
 public class RetailerConverter extends Converter<Retailer, RetailerTO> {
 
-	@Override
-	protected Retailer doBackward(RetailerTO transfer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    protected Retailer doBackward(final RetailerTO transfer) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	protected RetailerTO doForward(Retailer retailer) {
-		RetailerTO transfer = new RetailerTO();
+    @Override
+    protected RetailerTO doForward(final Retailer retailer) {
+        final RetailerTO transfer = new RetailerTO();
 
-		transfer.setId(retailer.getId());
-		transfer.setName(retailer.getName());
-		transfer.setCreatedAt(retailer.getCreatedAt());
-		transfer.setUpdatedAt(retailer.getUpdatedAt());
-		return transfer;
-	}
+        transfer.setId(retailer.getId());
+        transfer.setName(retailer.getName());
+        transfer.setCreatedAt(retailer.getCreatedAt());
+        transfer.setUpdatedAt(retailer.getUpdatedAt());
+        return transfer;
+    }
 
 }

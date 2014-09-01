@@ -27,58 +27,56 @@ import org.sbassin.model.Event;
 @Stateless
 @Path("/events")
 @Produces(value = { MediaType.APPLICATION_JSON })
-public class EventEndpoint
-{
-   @PersistenceContext(unitName = "EventsPU")
-   private EntityManager em;
+public class EventEndpoint {
+    @PersistenceContext(unitName = "EventsPU")
+    private EntityManager em;
 
-   @POST
-   @Consumes(value = { MediaType.APPLICATION_JSON })
-   public Response create(Event entity)
-   {
-      em.persist(entity);
-      return Response.created(UriBuilder.fromResource(EventEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
-   }
+    @POST
+    @Consumes(value = { MediaType.APPLICATION_JSON })
+    public Response create(final Event entity) {
+        em.persist(entity);
+        return Response.created(
+                UriBuilder.fromResource(EventEndpoint.class).path(String.valueOf(entity.getId())).build())
+                .build();
+    }
 
-   @DELETE
-   @Path("/{id:[0-9][0-9]*}")
-   public Response deleteById(@PathParam("id") Integer id)
-   {
-      Event entity = em.find(Event.class, id);
-      if (entity == null)
-      {
-         return Response.status(Status.NOT_FOUND).build();
-      }
-      em.remove(entity);
-      return Response.noContent().build();
-   }
+    @DELETE
+    @Path("/{id:[0-9][0-9]*}")
+    public Response deleteById(@PathParam("id") final Integer id) {
+        final Event entity = em.find(Event.class, id);
+        if (entity == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        em.remove(entity);
+        return Response.noContent().build();
+    }
 
-   @GET
-   @Path("/{id:[0-9][0-9]*}")
-   public Response findById(@PathParam("id") Integer id)
-   {
-      TypedQuery<Event> findByIdQuery = em.createQuery("SELECT DISTINCT e FROM Event e LEFT JOIN FETCH e.customer LEFT JOIN FETCH e.store WHERE e.id = :entityId ORDER BY e.id", Event.class);
-      findByIdQuery.setParameter("entityId", id);
-      Event entity;
-      try
-      {
-         entity = findByIdQuery.getSingleResult();
-      }
-      catch (NoResultException nre)
-      {
-         entity = null;
-      }
-      if (entity == null)
-      {
-         return Response.status(Status.NOT_FOUND).build();
-      }
-      return Response.ok(entity).build();
-   }
+    @GET
+    @Path("/{id:[0-9][0-9]*}")
+    public Response findById(@PathParam("id") final Integer id) {
+        final TypedQuery<Event> findByIdQuery = em
+                .createQuery(
+                        "SELECT DISTINCT e FROM Event e LEFT JOIN FETCH e.customer LEFT JOIN FETCH e.store WHERE e.id = :entityId ORDER BY e.id",
+                        Event.class);
+        findByIdQuery.setParameter("entityId", id);
+        Event entity;
+        try {
+            entity = findByIdQuery.getSingleResult();
+        } catch (final NoResultException nre) {
+            entity = null;
+        }
+        if (entity == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok(entity).build();
+    }
 
-   @GET
-   public List<Event> listAll()
-   {
-      final List<Event> results = em.createQuery("SELECT DISTINCT e FROM Event e LEFT JOIN FETCH e.customer LEFT JOIN FETCH e.store ORDER BY e.id", Event.class).getResultList();
-      return results;
-   }
+    @GET
+    public List<Event> listAll() {
+        final List<Event> results = em
+                .createQuery(
+                        "SELECT DISTINCT e FROM Event e LEFT JOIN FETCH e.customer LEFT JOIN FETCH e.store ORDER BY e.id",
+                        Event.class).getResultList();
+        return results;
+    }
 }

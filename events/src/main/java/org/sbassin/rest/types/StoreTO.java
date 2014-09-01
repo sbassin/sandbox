@@ -9,115 +9,105 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class StoreTO implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String address;
+    private String address;
 
-	private String city;
+    private String city;
 
-	private Date createdAt;
+    private Date createdAt;
 
-	private Set<EventTO> events = new HashSet<EventTO>(0);
+    private Set<EventTO> events = new HashSet<EventTO>(0);
 
-	private Integer id;
+    private Integer id;
 
-	private Float lat;
+    private LocationTO location;
 
-	private Float long_;
+    private RetailerTO retailer;
 
-	private RetailerTO retailer;
+    private String state;
 
-	private String state;
+    private Date updatedAt;
 
-	private Date updatedAt;
+    private String zip;
 
-	private String zip;
+    public String getAddress() {
+        return address;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
+    public Set<EventTO> getEvents() {
+        return events;
+    }
 
-	public Set<EventTO> getEvents() {
-		return events;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public LocationTO getLocation() {
+        return location;
+    }
 
-	public Float getLat() {
-		return lat;
-	}
+    public RetailerTO getRetailer() {
+        return retailer;
+    }
 
-	public Float getLong_() {
-		return long_;
-	}
+    public String getState() {
+        return state;
+    }
 
-	public RetailerTO getRetailer() {
-		return retailer;
-	}
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
 
-	public String getState() {
-		return state;
-	}
+    public String getZip() {
+        return zip;
+    }
 
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
+    public void setAddress(final String address) {
+        this.address = address;
+    }
 
-	public String getZip() {
-		return zip;
-	}
+    public void setCity(final String city) {
+        this.city = city;
+    }
 
-	public void setAddress(final String address) {
-		this.address = address;
-	}
+    public void setCreatedAt(final Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public void setCity(final String city) {
-		this.city = city;
-	}
+    public void setEvents(final Set<EventTO> events) {
+        this.events = events;
+    }
 
-	public void setCreatedAt(final Date createdAt) {
-		this.createdAt = createdAt;
-	}
+    public void setId(final Integer id) {
+        this.id = id;
+    }
 
-	public void setEvents(final Set<EventTO> events) {
-		this.events = events;
-	}
+    public void setLocation(final LocationTO location) {
+        this.location = location;
+    }
 
-	public void setId(final Integer id) {
-		this.id = id;
-	}
+    public void setRetailer(final RetailerTO retailer) {
+        this.retailer = retailer;
+    }
 
-	public void setLat(final Float lat) {
-		this.lat = lat;
-	}
+    public void setState(final String state) {
+        this.state = state;
+    }
 
-	public void setLong_(final Float long_) {
-		this.long_ = long_;
-	}
+    public void setUpdatedAt(final Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
-	public void setRetailer(final RetailerTO retailer) {
-		this.retailer = retailer;
-	}
-
-	public void setState(final String state) {
-		this.state = state;
-	}
-
-	public void setUpdatedAt(final Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-	public void setZip(final String zip) {
-		this.zip = zip;
-	}
+    public void setZip(final String zip) {
+        this.zip = zip;
+    }
 }

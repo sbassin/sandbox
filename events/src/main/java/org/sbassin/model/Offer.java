@@ -21,130 +21,111 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "offers")
 @XmlRootElement
-public class Offer implements Serializable
-{
+public class Offer implements Serializable {
 
-   private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-   @Temporal(TemporalType.TIMESTAMP)
-   @Column(name = "created_at", length = 19)
-   private Date createdAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at", length = 19)
+    private Date createdAt;
 
-   @Column(name = "description", columnDefinition="text")
-   private String description;
+    @Column(name = "description", columnDefinition = "text")
+    private String description;
 
-   @Temporal(TemporalType.TIMESTAMP)
-   @Column(name = "expiration", length = 19)
-   private Date expiration;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "expiration", length = 19)
+    private Date expiration;
 
-   @Id
-   @GeneratedValue(strategy = IDENTITY)
-   @Column(name = "id", unique = true, nullable = false)
-   private Integer id;
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
+    private Integer id;
 
-   @Column(name = "image_url")
-   private String imageUrl;
+    @Column(name = "image_url")
+    private String imageUrl;
 
-   @Column(name = "name")
-   private String name;
+    @Column(name = "name")
+    private String name;
 
-   @OneToMany(fetch = FetchType.LAZY, mappedBy = "offer")
-   private Set<Task> tasks = new HashSet<Task>(0);
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "offer")
+    private Set<Task> tasks = new HashSet<Task>(0);
 
-   @Column(name = "terms", columnDefinition="text")
-   private String terms;
+    @Column(name = "terms", columnDefinition = "text")
+    private String terms;
 
-   @Temporal(TemporalType.TIMESTAMP)
-   @Column(name = "updated_at", length = 19)
-   private Date updatedAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated_at", length = 19)
+    private Date updatedAt;
 
-   public Date getCreatedAt()
-   {
-      return createdAt;
-   }
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
-   public String getDescription()
-   {
-      return description;
-   }
+    public String getDescription() {
+        return description;
+    }
 
-   public Date getExpiration()
-   {
-      return expiration;
-   }
+    public Date getExpiration() {
+        return expiration;
+    }
 
-   public Integer getId()
-   {
-      return id;
-   }
+    public Integer getId() {
+        return id;
+    }
 
-   public String getImageUrl()
-   {
-      return imageUrl;
-   }
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
-   public String getName()
-   {
-      return name;
-   }
+    public String getName() {
+        return name;
+    }
 
-   public Set<Task> getTasks()
-   {
-      return tasks;
-   }
+    public Set<Task> getTasks() {
+        return tasks;
+    }
 
-   public String getTerms()
-   {
-      return terms;
-   }
+    public String getTerms() {
+        return terms;
+    }
 
-   public Date getUpdatedAt()
-   {
-      return updatedAt;
-   }
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
 
-   public void setCreatedAt(final Date createdAt)
-   {
-      this.createdAt = createdAt;
-   }
+    public void setCreatedAt(final Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
-   public void setDescription(final String description)
-   {
-      this.description = description;
-   }
+    public void setDescription(final String description) {
+        this.description = description;
+    }
 
-   public void setExpiration(final Date expiration)
-   {
-      this.expiration = expiration;
-   }
+    public void setExpiration(final Date expiration) {
+        this.expiration = expiration;
+    }
 
-   public void setId(final Integer id)
-   {
-      this.id = id;
-   }
+    public void setId(final Integer id) {
+        this.id = id;
+    }
 
-   public void setImageUrl(final String imageUrl)
-   {
-      this.imageUrl = imageUrl;
-   }
+    public void setImageUrl(final String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
-   public void setName(final String name)
-   {
-      this.name = name;
-   }
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-   public void setTasks(final Set<Task> tasks)
-   {
-      this.tasks = tasks;
-   }
+    public void setTasks(final Set<Task> tasks) {
+        this.tasks = tasks;
+    }
 
-   public void setTerms(final String terms)
-   {
-      this.terms = terms;
-   }
+    public void setTerms(final String terms) {
+        this.terms = terms;
+    }
 
-   public void setUpdatedAt(final Date updatedAt)
-   {
-      this.updatedAt = updatedAt;
-   }
+    public void setUpdatedAt(final Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }

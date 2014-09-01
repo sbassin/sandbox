@@ -7,85 +7,75 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class EventTO implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private Date createdAt;
+    private Date createdAt;
 
-	private CustomerTO customer;
+    private CustomerTO customer;
 
-	private Date eventAt;
+    private Date eventAt;
 
-	private Integer id;
+    private Integer id;
 
-	private Float lat;
+    private LocationTO location;
 
-	private Float long_;
+    private StoreTO store;
 
-	private StoreTO store;
+    private Date updatedAt;
 
-	private Date updatedAt;
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
+    public CustomerTO getCustomer() {
+        return customer;
+    }
 
-	public CustomerTO getCustomer() {
-		return customer;
-	}
+    public Date getEventAt() {
+        return eventAt;
+    }
 
-	public Date getEventAt() {
-		return eventAt;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public LocationTO getLocation() {
+        return location;
+    }
 
-	public Float getLat() {
-		return lat;
-	}
+    public StoreTO getStore() {
+        return store;
+    }
 
-	public Float getLong_() {
-		return long_;
-	}
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
 
-	public StoreTO getStore() {
-		return store;
-	}
+    public void setCreatedAt(final Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
+    public void setCustomer(final CustomerTO customer) {
+        this.customer = customer;
+    }
 
-	public void setCreatedAt(final Date createdAt) {
-		this.createdAt = createdAt;
-	}
+    public void setEventAt(final Date eventAt) {
+        this.eventAt = eventAt;
+    }
 
-	public void setCustomer(final CustomerTO customer) {
-		this.customer = customer;
-	}
+    public void setId(final Integer id) {
+        this.id = id;
+    }
 
-	public void setEventAt(final Date eventAt) {
-		this.eventAt = eventAt;
-	}
+    public void setLocation(final LocationTO location) {
+        this.location = location;
+    }
 
-	public void setId(final Integer id) {
-		this.id = id;
-	}
+    public void setStore(final StoreTO store) {
+        this.store = store;
+    }
 
-	public void setLat(final Float lat) {
-		this.lat = lat;
-	}
-
-	public void setLong_(final Float long_) {
-		this.long_ = long_;
-	}
-
-	public void setStore(final StoreTO store) {
-		this.store = store;
-	}
-
-	public void setUpdatedAt(final Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
+    public void setUpdatedAt(final Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }

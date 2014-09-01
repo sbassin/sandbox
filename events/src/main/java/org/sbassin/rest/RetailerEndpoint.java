@@ -31,59 +31,55 @@ import com.google.common.collect.Lists;
 @Stateless
 @Path("/retailers")
 @Produces(value = { MediaType.APPLICATION_JSON })
-public class RetailerEndpoint
-{
-   @PersistenceContext(unitName = "EventsPU")
-   private EntityManager em;
+public class RetailerEndpoint {
+    @PersistenceContext(unitName = "EventsPU")
+    private EntityManager em;
 
-   @POST
-   @Consumes(value = { MediaType.APPLICATION_JSON })
-   public Response create(Retailer entity)
-   {
-      em.persist(entity);
-      return Response.created(UriBuilder.fromResource(RetailerEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
-   }
+    @POST
+    @Consumes(value = { MediaType.APPLICATION_JSON })
+    public Response create(final Retailer entity) {
+        em.persist(entity);
+        return Response.created(
+                UriBuilder.fromResource(RetailerEndpoint.class).path(String.valueOf(entity.getId())).build())
+                .build();
+    }
 
-   @DELETE
-   @Path("/{id:[0-9][0-9]*}")
-   public Response deleteById(@PathParam("id") Integer id)
-   {
-      Retailer entity = em.find(Retailer.class, id);
-      if (entity == null)
-      {
-         return Response.status(Status.NOT_FOUND).build();
-      }
-      em.remove(entity);
-      return Response.noContent().build();
-   }
+    @DELETE
+    @Path("/{id:[0-9][0-9]*}")
+    public Response deleteById(@PathParam("id") final Integer id) {
+        final Retailer entity = em.find(Retailer.class, id);
+        if (entity == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        em.remove(entity);
+        return Response.noContent().build();
+    }
 
-   @GET
-   @Path("/{id:[0-9][0-9]*}")
-   public Response findById(@PathParam("id") Integer id)
-   {
-      TypedQuery<Retailer> findByIdQuery = em.createQuery("SELECT DISTINCT r FROM Retailer r LEFT JOIN FETCH r.stores WHERE r.id = :entityId", Retailer.class);
-      findByIdQuery.setParameter("entityId", id);
-      Retailer entity;
-      try
-      {
-         entity = findByIdQuery.getSingleResult();
-      }
-      catch (NoResultException nre)
-      {
-         entity = null;
-      }
-      if (entity == null)
-      {
-         return Response.status(Status.NOT_FOUND).build();
-      }
-      return Response.ok(entity).build();
-   }
+    @GET
+    @Path("/{id:[0-9][0-9]*}")
+    public Response findById(@PathParam("id") final Integer id) {
+        final TypedQuery<Retailer> findByIdQuery = em.createQuery(
+                "SELECT DISTINCT r FROM Retailer r LEFT JOIN FETCH r.stores WHERE r.id = :entityId",
+                Retailer.class);
+        findByIdQuery.setParameter("entityId", id);
+        Retailer entity;
+        try {
+            entity = findByIdQuery.getSingleResult();
+        } catch (final NoResultException nre) {
+            entity = null;
+        }
+        if (entity == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok(entity).build();
+    }
 
-   @GET
-   public List<RetailerTO> listAll()
-   {
-      final List<Retailer> results = em.createQuery("SELECT DISTINCT r FROM Retailer r LEFT JOIN FETCH r.stores ORDER BY r.id", Retailer.class).getResultList();
-      final List<RetailerTO> translatedResults = Lists.transform(results, new RetailerConverter());
-      return translatedResults;
-   }
+    @GET
+    public List<RetailerTO> listAll() {
+        final List<Retailer> results = em.createQuery(
+                "SELECT DISTINCT r FROM Retailer r LEFT JOIN FETCH r.stores ORDER BY r.id", Retailer.class)
+                .getResultList();
+        final List<RetailerTO> translatedResults = Lists.transform(results, new RetailerConverter());
+        return translatedResults;
+    }
 }
