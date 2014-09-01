@@ -26,8 +26,8 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.sbassin.model.Event;
 import org.sbassin.model.Event_;
 import org.sbassin.rest.types.StatisticsTO;
-import org.sbassin.rest.util.DistanceUtils;
-import org.sbassin.rest.util.DistanceUtils.DistanceUnit;
+import org.sbassin.util.DistanceUtils;
+import org.sbassin.util.DistanceUtils.DistanceUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

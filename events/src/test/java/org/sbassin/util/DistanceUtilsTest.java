@@ -1,4 +1,4 @@
-package org.sbassin.rest.util;
+package org.sbassin.util;
 
 import static org.junit.Assert.*;
 
@@ -9,7 +9,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.sbassin.model.Location;
-import org.sbassin.rest.util.DistanceUtils.DistanceUnit;
+import org.sbassin.util.DistanceUtils;
+import org.sbassin.util.DistanceUtils.DistanceUnit;
 
 import com.google.common.collect.Lists;
 

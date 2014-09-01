@@ -1,4 +1,4 @@
-package org.sbassin.rest.util;
+package org.sbassin.util;
 
 import org.sbassin.model.Location;
 
