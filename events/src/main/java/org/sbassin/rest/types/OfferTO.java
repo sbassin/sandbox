@@ -12,7 +12,7 @@ public class OfferTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Date createdAt;
+    private AuditInformationTO auditInformation;
 
     private String description;
 
@@ -28,10 +28,8 @@ public class OfferTO implements Serializable {
 
     private String terms;
 
-    private Date updatedAt;
-
-    public Date getCreatedAt() {
-        return createdAt;
+    public AuditInformationTO getAuditInformation() {
+        return auditInformation;
     }
 
     public String getDescription() {
@@ -62,12 +60,8 @@ public class OfferTO implements Serializable {
         return terms;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setCreatedAt(final Date createdAt) {
-        this.createdAt = createdAt;
+    public void setAuditInformation(final AuditInformationTO auditInformation) {
+        this.auditInformation = auditInformation;
     }
 
     public void setDescription(final String description) {
@@ -96,9 +90,5 @@ public class OfferTO implements Serializable {
 
     public void setTerms(final String terms) {
         this.terms = terms;
-    }
-
-    public void setUpdatedAt(final Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }

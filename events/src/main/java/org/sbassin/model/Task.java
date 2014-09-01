@@ -3,9 +3,9 @@ package org.sbassin.model;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,25 +13,20 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "tasks")
-@XmlRootElement
 public class Task implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(name = "amount", precision = 12, scale = 0)
     private Float amount;
 
+    @Embedded
+    private AuditInformation auditInformation;
+
     @Column(name = "content", columnDefinition = "text")
     private String content;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", length = 19)
-    private Date createdAt;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -48,10 +43,6 @@ public class Task implements Serializable {
     @Column(name = "thumbnail_url")
     private String thumbnailUrl;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at", length = 19)
-    private Date updatedAt;
-
     @Column(name = "url")
     private String url;
 
@@ -59,12 +50,12 @@ public class Task implements Serializable {
         return amount;
     }
 
-    public String getContent() {
-        return content;
+    public AuditInformation getAuditInformation() {
+        return auditInformation;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public String getContent() {
+        return content;
     }
 
     public Integer getId() {
@@ -83,10 +74,6 @@ public class Task implements Serializable {
         return thumbnailUrl;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
     public String getUrl() {
         return url;
     }
@@ -95,12 +82,12 @@ public class Task implements Serializable {
         this.amount = amount;
     }
 
-    public void setContent(final String content) {
-        this.content = content;
+    public void setAuditInformation(final AuditInformation auditInformation) {
+        this.auditInformation = auditInformation;
     }
 
-    public void setCreatedAt(final Date createdAt) {
-        this.createdAt = createdAt;
+    public void setContent(final String content) {
+        this.content = content;
     }
 
     public void setId(final Integer id) {
@@ -117,10 +104,6 @@ public class Task implements Serializable {
 
     public void setThumbnailUrl(final String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
-    }
-
-    public void setUpdatedAt(final Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public void setUrl(final String url) {

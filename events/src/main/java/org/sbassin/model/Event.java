@@ -3,7 +3,6 @@ package org.sbassin.model;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -14,27 +13,25 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDateTime;
 
 @Entity
 @Table(name = "events")
-@XmlRootElement
 public class Event implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", length = 19)
-    private Date createdAt;
+    @Embedded
+    private AuditInformation auditInformation;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", columnDefinition = "varchar(255)")
     private Customer customer;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "event_at", length = 19)
-    private Date eventAt;
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+    @Column(name = "event_at", length = 19, columnDefinition = "datetime")
+    private LocalDateTime eventAt;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -48,19 +45,15 @@ public class Event implements Serializable {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at", length = 19)
-    private Date updatedAt;
-
-    public Date getCreatedAt() {
-        return createdAt;
+    public AuditInformation getAuditInformation() {
+        return auditInformation;
     }
 
     public Customer getCustomer() {
         return customer;
     }
 
-    public Date getEventAt() {
+    public LocalDateTime getEventAt() {
         return eventAt;
     }
 
@@ -76,19 +69,15 @@ public class Event implements Serializable {
         return store;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setCreatedAt(final Date createdAt) {
-        this.createdAt = createdAt;
+    public void setAuditInformation(final AuditInformation auditInformation) {
+        this.auditInformation = auditInformation;
     }
 
     public void setCustomer(final Customer customer) {
         this.customer = customer;
     }
 
-    public void setEventAt(final Date eventAt) {
+    public void setEventAt(final LocalDateTime eventAt) {
         this.eventAt = eventAt;
     }
 
@@ -102,9 +91,5 @@ public class Event implements Serializable {
 
     public void setStore(final Store store) {
         this.store = store;
-    }
-
-    public void setUpdatedAt(final Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }

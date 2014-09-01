@@ -3,7 +3,6 @@ package org.sbassin.model;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,25 +16,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "stores")
-@XmlRootElement
 public class Store implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(name = "address")
     private String address;
 
+    @Embedded
+    private AuditInformation auditInformation;
+
     @Column(name = "city")
     private String city;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", length = 19)
-    private Date createdAt;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "store")
     private Set<Event> events = new HashSet<Event>(0);
@@ -55,10 +49,6 @@ public class Store implements Serializable {
     @Column(name = "state")
     private String state;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at", length = 19)
-    private Date updatedAt;
-
     @Column(name = "zip")
     private String zip;
 
@@ -66,12 +56,12 @@ public class Store implements Serializable {
         return address;
     }
 
-    public String getCity() {
-        return city;
+    public AuditInformation getAuditInformation() {
+        return auditInformation;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public String getCity() {
+        return city;
     }
 
     public Set<Event> getEvents() {
@@ -94,10 +84,6 @@ public class Store implements Serializable {
         return state;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
     public String getZip() {
         return zip;
     }
@@ -106,12 +92,12 @@ public class Store implements Serializable {
         this.address = address;
     }
 
-    public void setCity(final String city) {
-        this.city = city;
+    public void setAuditInformation(final AuditInformation auditInformation) {
+        this.auditInformation = auditInformation;
     }
 
-    public void setCreatedAt(final Date createdAt) {
-        this.createdAt = createdAt;
+    public void setCity(final String city) {
+        this.city = city;
     }
 
     public void setEvents(final Set<Event> events) {
@@ -132,10 +118,6 @@ public class Store implements Serializable {
 
     public void setState(final String state) {
         this.state = state;
-    }
-
-    public void setUpdatedAt(final Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public void setZip(final String zip) {

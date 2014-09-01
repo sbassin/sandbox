@@ -1,7 +1,6 @@
 package org.sbassin.rest.types;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class RetailerTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Date createdAt;
+    private AuditInformationTO auditInformation;
 
     private Integer id;
 
@@ -19,10 +18,8 @@ public class RetailerTO implements Serializable {
 
     private Set<StoreTO> stores = new HashSet<StoreTO>(0);
 
-    private Date updatedAt;
-
-    public Date getCreatedAt() {
-        return createdAt;
+    public AuditInformationTO getAuditInformation() {
+        return auditInformation;
     }
 
     public Integer getId() {
@@ -37,12 +34,8 @@ public class RetailerTO implements Serializable {
         return stores;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setCreatedAt(final Date createdAt) {
-        this.createdAt = createdAt;
+    public void setAuditInformation(final AuditInformationTO auditInformation) {
+        this.auditInformation = auditInformation;
     }
 
     public void setId(final Integer id) {
@@ -57,7 +50,4 @@ public class RetailerTO implements Serializable {
         this.stores = stores;
     }
 
-    public void setUpdatedAt(final Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }

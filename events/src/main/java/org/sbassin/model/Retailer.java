@@ -3,30 +3,25 @@ package org.sbassin.model;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "retailers")
-@XmlRootElement
 public class Retailer implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", length = 19)
-    private Date createdAt;
+    @Embedded
+    private AuditInformation auditInformation;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -39,12 +34,8 @@ public class Retailer implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "retailer")
     private Set<Store> stores = new HashSet<Store>(0);
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at", length = 19)
-    private Date updatedAt;
-
-    public Date getCreatedAt() {
-        return createdAt;
+    public AuditInformation getAuditInformation() {
+        return auditInformation;
     }
 
     public Integer getId() {
@@ -59,12 +50,8 @@ public class Retailer implements Serializable {
         return stores;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setCreatedAt(final Date createdAt) {
-        this.createdAt = createdAt;
+    public void setAuditInformation(final AuditInformation auditInformation) {
+        this.auditInformation = auditInformation;
     }
 
     public void setId(final Integer id) {
@@ -77,9 +64,5 @@ public class Retailer implements Serializable {
 
     public void setStores(final Set<Store> stores) {
         this.stores = stores;
-    }
-
-    public void setUpdatedAt(final Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }

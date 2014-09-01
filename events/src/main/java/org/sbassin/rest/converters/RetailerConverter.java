@@ -19,8 +19,7 @@ public class RetailerConverter extends Converter<Retailer, RetailerTO> {
 
         transfer.setId(retailer.getId());
         transfer.setName(retailer.getName());
-        transfer.setCreatedAt(retailer.getCreatedAt());
-        transfer.setUpdatedAt(retailer.getUpdatedAt());
+        transfer.setAuditInformation(new AuditInformationConverter().convert(retailer.getAuditInformation()));
         return transfer;
     }
 

@@ -1,4 +1,4 @@
-package org.sbassin.rest;
+package org.sbassin.rest.services;
 
 import java.util.List;
 

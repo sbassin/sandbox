@@ -1,7 +1,6 @@
 package org.sbassin.rest.types;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,9 +12,9 @@ public class StoreTO implements Serializable {
 
     private String address;
 
-    private String city;
+    private AuditInformationTO auditInformation;
 
-    private Date createdAt;
+    private String city;
 
     private Set<EventTO> events = new HashSet<EventTO>(0);
 
@@ -27,20 +26,18 @@ public class StoreTO implements Serializable {
 
     private String state;
 
-    private Date updatedAt;
-
     private String zip;
 
     public String getAddress() {
         return address;
     }
 
-    public String getCity() {
-        return city;
+    public AuditInformationTO getAuditInformation() {
+        return auditInformation;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public String getCity() {
+        return city;
     }
 
     public Set<EventTO> getEvents() {
@@ -63,10 +60,6 @@ public class StoreTO implements Serializable {
         return state;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
     public String getZip() {
         return zip;
     }
@@ -75,12 +68,12 @@ public class StoreTO implements Serializable {
         this.address = address;
     }
 
-    public void setCity(final String city) {
-        this.city = city;
+    public void setAuditInformation(final AuditInformationTO auditInformation) {
+        this.auditInformation = auditInformation;
     }
 
-    public void setCreatedAt(final Date createdAt) {
-        this.createdAt = createdAt;
+    public void setCity(final String city) {
+        this.city = city;
     }
 
     public void setEvents(final Set<EventTO> events) {
@@ -101,10 +94,6 @@ public class StoreTO implements Serializable {
 
     public void setState(final String state) {
         this.state = state;
-    }
-
-    public void setUpdatedAt(final Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public void setZip(final String zip) {

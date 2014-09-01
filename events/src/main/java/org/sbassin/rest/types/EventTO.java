@@ -1,19 +1,20 @@
 package org.sbassin.rest.types;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.joda.time.LocalDateTime;
 
 @XmlRootElement
 public class EventTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Date createdAt;
+    private AuditInformationTO auditInformation;
 
     private CustomerTO customer;
 
-    private Date eventAt;
+    private LocalDateTime eventAt;
 
     private Integer id;
 
@@ -21,17 +22,15 @@ public class EventTO implements Serializable {
 
     private StoreTO store;
 
-    private Date updatedAt;
-
-    public Date getCreatedAt() {
-        return createdAt;
+    public AuditInformationTO getAuditInformation() {
+        return auditInformation;
     }
 
     public CustomerTO getCustomer() {
         return customer;
     }
 
-    public Date getEventAt() {
+    public LocalDateTime getEventAt() {
         return eventAt;
     }
 
@@ -47,19 +46,15 @@ public class EventTO implements Serializable {
         return store;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setCreatedAt(final Date createdAt) {
-        this.createdAt = createdAt;
+    public void setAuditInformation(final AuditInformationTO auditInformation) {
+        this.auditInformation = auditInformation;
     }
 
     public void setCustomer(final CustomerTO customer) {
         this.customer = customer;
     }
 
-    public void setEventAt(final Date eventAt) {
+    public void setEventAt(final LocalDateTime eventAt) {
         this.eventAt = eventAt;
     }
 
@@ -73,9 +68,5 @@ public class EventTO implements Serializable {
 
     public void setStore(final StoreTO store) {
         this.store = store;
-    }
-
-    public void setUpdatedAt(final Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }

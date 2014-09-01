@@ -13,9 +13,9 @@ import org.sbassin.model.Event;
 public class CustomerTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Date createdAt;
+    private AuditInformationTO auditInformation;
 
-    private String customerId;
+    private Date createdAt;
 
     private Set<Event> events = new HashSet<Event>(0);
 
@@ -23,16 +23,14 @@ public class CustomerTO implements Serializable {
 
     private LocationTO location;
 
-    private Date updatedAt;
-
     private String zip;
+
+    public AuditInformationTO getAuditInformation() {
+        return auditInformation;
+    }
 
     public Date getCreatedAt() {
         return createdAt;
-    }
-
-    public String getCustomerId() {
-        return customerId;
     }
 
     public Set<Event> getEvents() {
@@ -47,20 +45,16 @@ public class CustomerTO implements Serializable {
         return location;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
     public String getZip() {
         return zip;
     }
 
-    public void setCreatedAt(final Date createdAt) {
-        this.createdAt = createdAt;
+    public void setAuditInformation(final AuditInformationTO auditInformation) {
+        this.auditInformation = auditInformation;
     }
 
-    public void setCustomerId(final String customerId) {
-        this.customerId = customerId;
+    public void setCreatedAt(final Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public void setEvents(final Set<Event> events) {
@@ -73,10 +67,6 @@ public class CustomerTO implements Serializable {
 
     public void setLocation(final LocationTO location) {
         this.location = location;
-    }
-
-    public void setUpdatedAt(final Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public void setZip(final String zip) {

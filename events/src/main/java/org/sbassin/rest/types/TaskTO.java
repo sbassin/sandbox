@@ -1,7 +1,6 @@
 package org.sbassin.rest.types;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -11,9 +10,9 @@ public class TaskTO implements Serializable {
 
     private Float amount;
 
-    private String content;
+    private AuditInformationTO auditInformation;
 
-    private Date createdAt;
+    private String content;
 
     private Integer id;
 
@@ -23,20 +22,18 @@ public class TaskTO implements Serializable {
 
     private String thumbnailUrl;
 
-    private Date updatedAt;
-
     private String url;
 
     public Float getAmount() {
         return amount;
     }
 
-    public String getContent() {
-        return content;
+    public AuditInformationTO getAuditInformation() {
+        return auditInformation;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public String getContent() {
+        return content;
     }
 
     public Integer getId() {
@@ -55,10 +52,6 @@ public class TaskTO implements Serializable {
         return thumbnailUrl;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
     public String getUrl() {
         return url;
     }
@@ -67,12 +60,12 @@ public class TaskTO implements Serializable {
         this.amount = amount;
     }
 
-    public void setContent(final String content) {
-        this.content = content;
+    public void setAuditInformation(final AuditInformationTO auditInformation) {
+        this.auditInformation = auditInformation;
     }
 
-    public void setCreatedAt(final Date createdAt) {
-        this.createdAt = createdAt;
+    public void setContent(final String content) {
+        this.content = content;
     }
 
     public void setId(final Integer id) {
@@ -89,10 +82,6 @@ public class TaskTO implements Serializable {
 
     public void setThumbnailUrl(final String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
-    }
-
-    public void setUpdatedAt(final Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public void setUrl(final String url) {

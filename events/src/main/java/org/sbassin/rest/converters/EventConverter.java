@@ -20,9 +20,7 @@ public class EventConverter extends Converter<Event, EventTO> {
         transfer.setId(event.getId());
         transfer.setLocation(new LocationConverter().convert(event.getLocation()));
         transfer.setEventAt(event.getEventAt());
-        transfer.setCreatedAt(event.getCreatedAt());
-        transfer.setUpdatedAt(event.getUpdatedAt());
+        transfer.setAuditInformation(new AuditInformationConverter().convert(event.getAuditInformation()));
         return transfer;
     }
-
 }

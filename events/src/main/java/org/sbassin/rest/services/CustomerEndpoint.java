@@ -1,4 +1,4 @@
-package org.sbassin.rest;
+package org.sbassin.rest.services;
 
 import java.util.List;
 
@@ -19,31 +19,30 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
-import org.sbassin.model.Event;
+import org.sbassin.model.Customer;
 
 /**
  * 
  */
 @Stateless
-@Path("/events")
+@Path("/customers")
 @Produces(value = { MediaType.APPLICATION_JSON })
-public class EventEndpoint {
+public class CustomerEndpoint {
     @PersistenceContext(unitName = "EventsPU")
     private EntityManager em;
 
     @POST
     @Consumes(value = { MediaType.APPLICATION_JSON })
-    public Response create(final Event entity) {
+    public Response create(final Customer entity) {
         em.persist(entity);
         return Response.created(
-                UriBuilder.fromResource(EventEndpoint.class).path(String.valueOf(entity.getId())).build())
-                .build();
+                UriBuilder.fromResource(CustomerEndpoint.class).path(entity.getCustomerId()).build()).build();
     }
 
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
     public Response deleteById(@PathParam("id") final Integer id) {
-        final Event entity = em.find(Event.class, id);
+        final Customer entity = em.find(Customer.class, id);
         if (entity == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -54,12 +53,12 @@ public class EventEndpoint {
     @GET
     @Path("/{id:[0-9][0-9]*}")
     public Response findById(@PathParam("id") final Integer id) {
-        final TypedQuery<Event> findByIdQuery = em
+        final TypedQuery<Customer> findByIdQuery = em
                 .createQuery(
-                        "SELECT DISTINCT e FROM Event e LEFT JOIN FETCH e.customer LEFT JOIN FETCH e.store WHERE e.id = :entityId ORDER BY e.id",
-                        Event.class);
+                        "SELECT DISTINCT c FROM Customer c LEFT JOIN FETCH c.events WHERE c.id = :entityId ORDER BY c.id",
+                        Customer.class);
         findByIdQuery.setParameter("entityId", id);
-        Event entity;
+        Customer entity;
         try {
             entity = findByIdQuery.getSingleResult();
         } catch (final NoResultException nre) {
@@ -72,11 +71,10 @@ public class EventEndpoint {
     }
 
     @GET
-    public List<Event> listAll() {
-        final List<Event> results = em
-                .createQuery(
-                        "SELECT DISTINCT e FROM Event e LEFT JOIN FETCH e.customer LEFT JOIN FETCH e.store ORDER BY e.id",
-                        Event.class).getResultList();
+    public List<Customer> listAll() {
+        final List<Customer> results = em.createQuery(
+                "SELECT DISTINCT c FROM Customer c LEFT JOIN FETCH c.events ORDER BY c.id", Customer.class)
+                .getResultList();
         return results;
     }
 }

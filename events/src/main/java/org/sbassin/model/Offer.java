@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,18 +17,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "offers")
-@XmlRootElement
 public class Offer implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", length = 19)
-    private Date createdAt;
+    @Embedded
+    private AuditInformation auditInformation;
 
     @Column(name = "description", columnDefinition = "text")
     private String description;
@@ -53,12 +51,8 @@ public class Offer implements Serializable {
     @Column(name = "terms", columnDefinition = "text")
     private String terms;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at", length = 19)
-    private Date updatedAt;
-
-    public Date getCreatedAt() {
-        return createdAt;
+    public AuditInformation getAuditInformation() {
+        return auditInformation;
     }
 
     public String getDescription() {
@@ -89,12 +83,8 @@ public class Offer implements Serializable {
         return terms;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setCreatedAt(final Date createdAt) {
-        this.createdAt = createdAt;
+    public void setAuditInformation(final AuditInformation auditInformation) {
+        this.auditInformation = auditInformation;
     }
 
     public void setDescription(final String description) {
@@ -123,9 +113,5 @@ public class Offer implements Serializable {
 
     public void setTerms(final String terms) {
         this.terms = terms;
-    }
-
-    public void setUpdatedAt(final Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }
