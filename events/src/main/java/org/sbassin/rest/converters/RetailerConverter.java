@@ -9,7 +9,7 @@ public class RetailerConverter extends Converter<Retailer, RetailerTO> {
 
     @Override
     protected Retailer doBackward(final RetailerTO transfer) {
-        Retailer retailer = new Retailer();
+        final Retailer retailer = new Retailer();
 
         retailer.setId(transfer.getId());
         retailer.setName(transfer.getName());

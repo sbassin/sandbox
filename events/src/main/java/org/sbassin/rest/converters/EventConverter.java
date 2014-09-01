@@ -9,7 +9,7 @@ public class EventConverter extends Converter<Event, EventTO> {
 
     @Override
     protected Event doBackward(final EventTO transfer) {
-        Event event = new Event();
+        final Event event = new Event();
 
         event.setId(transfer.getId());
         event.setLocation(new LocationConverter().reverse().convert(transfer.getLocation()));

@@ -17,6 +17,16 @@ public class Location implements Serializable {
     @Column(name = "long", precision = 12, scale = 0)
     private float longitude;
 
+    public Location() {
+        super();
+    }
+
+    public Location(final Double latitude, final Double longitude) {
+        this();
+        this.latitude = latitude.floatValue();
+        this.longitude = longitude.floatValue();
+    }
+
     public float getLatitude() {
         return latitude;
     }
@@ -29,21 +39,13 @@ public class Location implements Serializable {
         this.latitude = longitude;
     }
 
-    public Location(Double latitude, Double longitude) {
-        this();
-        this.latitude = latitude.floatValue();
-        this.longitude = longitude.floatValue();
-    }
-
-    public Location() {
-        super();
-    }
-
     public void setLongitude(final float longitude) {
         this.longitude = longitude;
     }
-    
+
+    @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).add("latitude", latitude).add("longitude", longitude).toString();
+        return MoreObjects.toStringHelper(this).add("latitude", latitude).add("longitude", longitude)
+                .toString();
     }
 }

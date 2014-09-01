@@ -9,8 +9,8 @@ public class AuditInformationConverter extends Converter<AuditInformation, Audit
 
     @Override
     protected AuditInformation doBackward(final AuditInformationTO transfer) {
-        AuditInformation auditInformation = new AuditInformation();
-        
+        final AuditInformation auditInformation = new AuditInformation();
+
         auditInformation.setCreatedAt(transfer.getCreatedAt());
         auditInformation.setUpdatedAt(transfer.getUpdatedAt());
         return auditInformation;

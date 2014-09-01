@@ -107,16 +107,20 @@ public class ReportingEndpoint {
                 logger.info("Distance from Customer ({}) to Store ({}) for Event {} is {} {}.", event
                         .getCustomer().getLocation(), event.getStore().getLocation(), event.getId(),
                         distance, distanceUnit);
-                // TODO Why so many NaN values?
+                /*
+                 * TODO Why so many NaN values? Seems like these distances are often on the order of a meter
+                 * or two.
+                 */
                 stats.addValue(distance);
             } else {
                 logger.warn("Distance from Customer ({}) to Store ({}) for Event {} is {}.", event
-                        .getCustomer().getLocation(), event.getStore().getLocation(), event.getId(),
-                        distance);
+                        .getCustomer().getLocation(), event.getStore().getLocation(), event.getId(), distance);
+                stats.addValue(0);
             }
         }
-        if(events.size() - stats.getN() > 0)
-        logger.warn("Found {} NaN results.", events.size() - stats.getN());
+        if (events.size() - stats.getN() > 0) {
+            logger.warn("Found {} NaN results.", events.size() - stats.getN());
+        }
 
         final StatisticsTO statistics = new StatisticsTO();
         statistics.setMax(stats.getMax());

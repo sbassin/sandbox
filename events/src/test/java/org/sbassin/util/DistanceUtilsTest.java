@@ -1,6 +1,7 @@
 package org.sbassin.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 
@@ -9,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.sbassin.model.Location;
-import org.sbassin.util.DistanceUtils;
 import org.sbassin.util.DistanceUtils.DistanceUnit;
 
 import com.google.common.collect.Lists;
@@ -18,7 +18,7 @@ import com.google.common.collect.Lists;
 public class DistanceUtilsTest {
     @Parameters
     public static Collection<Object[]> addedNumbers() {
-        Collection<Object[]> values = Lists.newArrayList();
+        final Collection<Object[]> values = Lists.newArrayList();
 
         values.add(new Object[] { new Location(39.9245, 105.061), new Location(39.9144, 105.072),
                 DistanceUnit.Miles, 0.7548674079583159 });
@@ -28,13 +28,13 @@ public class DistanceUtilsTest {
         return values;
     }
 
-    private DistanceUnit distanceUnit;
-    private double expectedDistance;
-    private Location location1;
-    private Location location2;
+    private final DistanceUnit distanceUnit;
+    private final double expectedDistance;
+    private final Location location1;
+    private final Location location2;
 
-    public DistanceUtilsTest(Location location1, Location location2, DistanceUnit distanceUnit,
-            double expectedDistance) {
+    public DistanceUtilsTest(final Location location1, final Location location2,
+            final DistanceUnit distanceUnit, final double expectedDistance) {
         super();
         this.location1 = location1;
         this.location2 = location2;
@@ -44,7 +44,7 @@ public class DistanceUtilsTest {
 
     @Test
     public void test() {
-        double actualDistance = DistanceUtils.distance(location1, location2, distanceUnit);
+        final double actualDistance = DistanceUtils.distance(location1, location2, distanceUnit);
         if (Double.isNaN(expectedDistance)) {
             assertTrue(Double.isNaN(actualDistance));
         } else {

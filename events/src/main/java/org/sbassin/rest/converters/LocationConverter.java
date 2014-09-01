@@ -9,8 +9,8 @@ public class LocationConverter extends Converter<Location, LocationTO> {
 
     @Override
     protected Location doBackward(final LocationTO transfer) {
-        Location location = new Location();
-        
+        final Location location = new Location();
+
         location.setLatitude(transfer.getLatitude());
         location.setLongitude(transfer.getLongitude());
         return location;
