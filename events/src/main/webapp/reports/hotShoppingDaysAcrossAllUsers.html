@@ -1,0 +1,53 @@
+<html>
+<head>
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css"
+	href="../css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+	href="../css/dataTables.bootstrap.css">
+
+<!-- jQuery -->
+<script type="text/javascript" charset="utf8" src="../js/jquery.js"></script>
+
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8"
+	src="../js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8"
+	src="../js/dataTables.bootstrap.js"></script>
+
+<script type="text/javascript" charset="utf8">
+	$(document).ready(function() {
+    $('#mydatatable').dataTable( {
+    	"paging": false,
+        "ajax": "../api/reports/hotShoppingDaysAcrossAllUsers",
+        "columns": [
+            { "data": "defaultordering" },
+            { "data": "day" },
+            { "data": "events" }
+        	],
+       	"columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            }
+        ],
+        "order": [[ 0, "asc" ]]
+	    } );
+	} );
+	</script>
+</head>
+<body>
+	<table id="mydatatable" class="table table-striped table-bordered"
+		cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th></th>
+				<th>Day</th>
+				<th>Events</th>
+			</tr>
+		</thead>
+	</table>
+</body>
+</html>

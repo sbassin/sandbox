@@ -7,6 +7,7 @@ import static com.google.common.collect.Iterables.getLast;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -32,7 +33,7 @@ import org.joda.time.format.DateTimeFormatterBuilder;
 import org.joda.time.format.ISODateTimeFormat;
 import org.sbassin.model.Event;
 import org.sbassin.model.Event_;
-import org.sbassin.rest.types.StatisticsTO;
+import org.sbassin.rest.types.ListTO;
 import org.sbassin.util.DistanceUtils;
 import org.sbassin.util.DistanceUtils.DistanceUnit;
 import org.slf4j.Logger;
@@ -48,19 +49,27 @@ import com.google.common.collect.Maps;
 public class ReportingEndpoint {
 
     enum DayOfWeek {
-        Friday(DateTimeConstants.FRIDAY),
-        Monday(DateTimeConstants.MONDAY),
-        Saturday(DateTimeConstants.SATURDAY),
-        Sunday(DateTimeConstants.SUNDAY),
-        Thursday(DateTimeConstants.THURSDAY),
-        Tuesday(DateTimeConstants.TUESDAY),
-        Wednesday(DateTimeConstants.WEDNESDAY);
+        Friday(DateTimeConstants.FRIDAY, 5),
+        Monday(DateTimeConstants.MONDAY, 1),
+        Saturday(DateTimeConstants.SATURDAY, 6),
+        Sunday(DateTimeConstants.SUNDAY, 0),
+        Thursday(DateTimeConstants.THURSDAY, 4),
+        Tuesday(DateTimeConstants.TUESDAY, 2),
+        Wednesday(DateTimeConstants.WEDNESDAY, 3);
+
+        /** Help with sorting. */
+        private final int dayNum;
 
         /** The representation of the day in Joda. */
         private final int jodaConstantValue;
 
-        private DayOfWeek(final int jodaConstantValue) {
+        private DayOfWeek(final int jodaConstantValue, final int dayNum) {
             this.jodaConstantValue = jodaConstantValue;
+            this.dayNum = dayNum;
+        }
+
+        public int getDayNum() {
+            return dayNum;
         }
 
         public int getJodaConstantValue() {
@@ -147,7 +156,7 @@ public class ReportingEndpoint {
                     .getStore().getLocation(), distanceUnit);
 
             if (!Double.isNaN(distance)) {
-                logger.info("Distance from Customer ({}) to Store ({}) for Event {} is {} {}.", event
+                logger.trace("Distance from Customer ({}) to Store ({}) for Event {} is {} {}.", event
                         .getCustomer().getLocation(), event.getStore().getLocation(), event.getId(),
                         distance, distanceUnit);
                 /*
@@ -156,7 +165,7 @@ public class ReportingEndpoint {
                  */
                 stats.addValue(distance);
             } else {
-                logger.warn("Distance from Customer ({}) to Store ({}) for Event {} is {}.", event
+                logger.trace("Distance from Customer ({}) to Store ({}) for Event {} is {}.", event
                         .getCustomer().getLocation(), event.getStore().getLocation(), event.getId(), distance);
                 stats.addValue(0);
             }
@@ -165,16 +174,44 @@ public class ReportingEndpoint {
             logger.warn("Found {} NaN results.", events.size() - stats.getN());
         }
 
-        final StatisticsTO statistics = new StatisticsTO();
-        statistics.setMax(stats.getMax());
-        statistics.setMin(stats.getMin());
-        statistics.setMean(stats.getMean());
-        statistics.setStandardDeviation(stats.getStandardDeviation());
-        statistics.setVariance(stats.getVariance());
-        statistics.setSampleSize(stats.getN());
-        statistics.setUnits(distanceUnit.name());
+        final ListTO list = new ListTO();
+        final Map<String, Object> mean = Maps.newLinkedHashMap();
+        mean.put("defaultordering", 0);
+        mean.put("statistic", "Mean");
+        mean.put("value", stats.getMean() + " " + distanceUnit.name());
+        list.getData().add(mean);
 
-        return Response.ok(new GenericEntity<StatisticsTO>(statistics) {
+        final Map<String, Object> max = Maps.newLinkedHashMap();
+        max.put("defaultordering", 1);
+        max.put("statistic", "Maximum");
+        max.put("value", stats.getMax() + " " + distanceUnit.name());
+        list.getData().add(max);
+
+        final Map<String, Object> min = Maps.newLinkedHashMap();
+        min.put("defaultordering", 2);
+        min.put("statistic", "Minimum");
+        min.put("value", stats.getMin() + " " + distanceUnit.name());
+        list.getData().add(min);
+
+        final Map<String, Object> standardDeviation = Maps.newLinkedHashMap();
+        standardDeviation.put("defaultordering", 3);
+        standardDeviation.put("statistic", "Standard Deviation");
+        standardDeviation.put("value", stats.getStandardDeviation() + " " + distanceUnit.name());
+        list.getData().add(standardDeviation);
+
+        final Map<String, Object> variance = Maps.newLinkedHashMap();
+        variance.put("defaultordering", 4);
+        variance.put("statistic", "Variance");
+        variance.put("value", stats.getVariance());
+        list.getData().add(variance);
+
+        final Map<String, Object> sampleSize = Maps.newLinkedHashMap();
+        sampleSize.put("defaultordering", 5);
+        sampleSize.put("statistic", "Sample Size");
+        sampleSize.put("value", stats.getN());
+        list.getData().add(sampleSize);
+
+        return Response.ok(new GenericEntity<ListTO>(list) {
         }).build();
     }
 
@@ -195,8 +232,16 @@ public class ReportingEndpoint {
             final int eventCount = Integer.valueOf(String.valueOf(result[1]));
             eventCountByRetailer.put(retailerName, eventCount);
         }
+        
+        final ListTO list = new ListTO();
+        for (final Entry<String, Integer> entry : eventCountByRetailer.entrySet()) {
+            final Map<String, Object> entryMap = Maps.newLinkedHashMap();
+            entryMap.put("retailer", entry.getKey());
+            entryMap.put("events", entry.getValue());
+            list.getData().add(entryMap);
+        }
 
-        return Response.ok(new GenericEntity<Map<String, Integer>>(eventCountByRetailer) {
+        return Response.ok(new GenericEntity<ListTO>(list) {
         }).build();
     }
 
@@ -214,15 +259,24 @@ public class ReportingEndpoint {
         logger.info("Events are scattered from {} to {}.", firstTimeStamp, lastTimeStamp);
 
         /* Note: This will break when crossing year boundaries. */
-        final DateTimeFormatter dateFormatter = ISODateTimeFormat.date();
-        final Map<String, Integer> eventCountByDate = Maps.newLinkedHashMap();
+        final Map<LocalDate, Integer> eventCountByDate = Maps.newLinkedHashMap();
         for (int i = firstTimeStamp.getDayOfYear(); i < lastTimeStamp.getDayOfYear(); i++) {
-            final String date = dateFormatter.print(new LocalDate().withDayOfYear(i));
+            final LocalDate date = new LocalDate().withDayOfYear(i);
             final int eventCount = filter(events, compose(onDayOfYear(i), eventAt())).size();
             eventCountByDate.put(date, eventCount);
         }
 
-        return Response.ok(new GenericEntity<Map<String, Integer>>(eventCountByDate) {
+        final DateTimeFormatter dateFormatter = ISODateTimeFormat.date();
+        final ListTO list = new ListTO();
+        for (final Entry<LocalDate, Integer> entry : eventCountByDate.entrySet()) {
+            final Map<String, Object> entryMap = Maps.newLinkedHashMap();
+            entryMap.put("defaultordering", entry.getKey().toDate().getTime());
+            entryMap.put("date", dateFormatter.print(entry.getKey()));
+            entryMap.put("events", entry.getValue());
+            list.getData().add(entryMap);
+        }
+
+        return Response.ok(new GenericEntity<ListTO>(list) {
         }).build();
     }
 
@@ -234,16 +288,25 @@ public class ReportingEndpoint {
     public Response hotShoppingDaysAcrossAllUsers() {
         final List<Event> events = loadAllEvents(false, false);
 
-        final Map<String, Integer> eventCountByDay = Maps.newLinkedHashMap();
+        final Map<DayOfWeek, Integer> eventCountByDay = Maps.newLinkedHashMap();
         for (final DayOfWeek dayOfWeek : new DayOfWeek[] { DayOfWeek.Sunday, DayOfWeek.Monday,
                 DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday,
                 DayOfWeek.Saturday }) {
             final int eventCount = filter(events,
                     compose(onDayOfWeek(dayOfWeek.getJodaConstantValue()), eventAt())).size();
-            eventCountByDay.put(dayOfWeek.name(), eventCount);
+            eventCountByDay.put(dayOfWeek, eventCount);
         }
 
-        return Response.ok(new GenericEntity<Map<String, Integer>>(eventCountByDay) {
+        final ListTO list = new ListTO();
+        for (final Entry<DayOfWeek, Integer> entry : eventCountByDay.entrySet()) {
+            final Map<String, Object> entryMap = Maps.newLinkedHashMap();
+            entryMap.put("defaultordering", entry.getKey().getDayNum());
+            entryMap.put("day", entry.getKey().name());
+            entryMap.put("events", entry.getValue());
+            list.getData().add(entryMap);
+        }
+
+        return Response.ok(new GenericEntity<ListTO>(list) {
         }).build();
     }
 
@@ -255,17 +318,26 @@ public class ReportingEndpoint {
     public Response hotShoppingTimesOfDayAcrossAllUsers() {
         final List<Event> events = loadAllEvents(false, false);
 
-        final Map<String, Integer> eventCountByHourOfDay = Maps.newLinkedHashMap();
-
-        final DateTimeFormatter hourOfDayFormatter = new DateTimeFormatterBuilder()
-                .appendClockhourOfHalfday(1).appendLiteral(' ').appendHalfdayOfDayText().toFormatter();
+        
+        final Map<LocalTime, Integer> eventCountByHourOfDay = Maps.newLinkedHashMap();
         for (int i = 0; i < 24; i++) {
-            final String hourOfDay = hourOfDayFormatter.print(new LocalTime(i, 0));
+            final LocalTime hourOfDay = new LocalTime(i, 0);
             final int eventCount = filter(events, compose(inHour(i), eventAt())).size();
             eventCountByHourOfDay.put(hourOfDay, eventCount);
         }
 
-        return Response.ok(new GenericEntity<Map<String, Integer>>(eventCountByHourOfDay) {
+        final DateTimeFormatter hourOfDayFormatter = new DateTimeFormatterBuilder()
+        .appendClockhourOfHalfday(1).appendLiteral(' ').appendHalfdayOfDayText().toFormatter();
+        final ListTO list = new ListTO();
+        for (final Entry<LocalTime, Integer> entry : eventCountByHourOfDay.entrySet()) {
+            final Map<String, Object> entryMap = Maps.newLinkedHashMap();
+            entryMap.put("defaultordering", entry.getKey().getHourOfDay());
+            entryMap.put("time", hourOfDayFormatter.print(entry.getKey()));
+            entryMap.put("events", entry.getValue());
+            list.getData().add(entryMap);
+        }
+
+        return Response.ok(new GenericEntity<ListTO>(list) {
         }).build();
     }
 
